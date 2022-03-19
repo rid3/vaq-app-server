@@ -14,5 +14,8 @@ router.use("/medicx", medicxRoutes)
 const clienteRoutes = require ("./cliente.routes") 
 router.use("/cliente", clienteRoutes)
 
+const publicRoutes = require ("./public.routes")
+router.use("/public", publicRoutes)
+
 
 module.exports = router;
