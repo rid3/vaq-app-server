@@ -41,15 +41,17 @@ const medSchema = new Schema(
     ciudad: {
       type: String
     },
-
-    guardias: {
-      centroDeSalud: String,
-      diasYhorario: String 
+    
+    centroDeSalud: {
+      type: String
+    },
+    
+    diasYhorario: {
+      type: String 
     },
 
     atiendePor: {
       type: String,
-      enum: ["obraSocial", "particular", "ambos"]
     },
     imgMed: {
       type: String

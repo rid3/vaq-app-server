@@ -15,7 +15,7 @@ router.post("/signup/:type", async (req, res, next) => {
     const { type } = req.params
 
     //----todas las propiedades de ambos tipos de usuarios
-    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, guardias, atiendePor, imgMed, nombre, emailCliente, passwordCliente, imgCl, medicxs, pronombres } = req.body
+    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, nombre, emailCliente, passwordCliente, imgCl, medicxs, pronombres } = req.body
 
   //VALIDADORES
   //Revisar que todos los campos estén llenos
@@ -94,7 +94,8 @@ router.post("/signup/:type", async (req, res, next) => {
                 imgCapacitacion,
                 provincia,
                 ciudad,
-                guardias,
+                centroDeSalud,
+                diasYhorario,
                 atiendePor,
                 imgMed
             })
@@ -118,19 +119,109 @@ router.post("/signup/:type", async (req, res, next) => {
 })
 
 //LOG IN ------------------------------------------------------------------------------------------< 
-router.post("/login/:type", async (req, res, next) => {
+// router.post("/login/:type", async (req, res, next) => {
 
-    const { type } = req.body
+//     const { type } = req.body
 
-    const { email, password, emailCliente, passwordCliente } = req.body
+//     const { email, password, emailCliente, passwordCliente } = req.body
 
-    // TENG QUE AGREGAR ===> Validaciones de BE
+//     // TENG QUE AGREGAR ===> Validaciones de BE
 
-    //Revisar que envíe ambos campos
-    if ( type === "medicx" && ( !email || !password ) ) {
-        res.status(400).json( { errorMessage: "LLenar todos los campos" } )
-        return;
-    } else if ( type === "cliente" && ( !emailCliente || !passwordCliente ) ) {
+//     //Revisar que envíe ambos campos
+//     if ( type === "medicx" && ( !email || !password ) ) {
+//         res.status(400).json( { errorMessage: "LLenar todos los campos" } )
+//         return;
+//     } else if ( type === "cliente" && ( !emailCliente || !passwordCliente ) ) {
+//         res.status(400).json( { errorMessage: "LLenar todos los campos" } )
+//         return;
+//     }
+
+
+//     try {
+//         //Validar que el usuario exista
+//         let foundUser;
+//         if (type === "medicx") {
+//             foundUser = await MedicxModel.findOne({email})
+//               if(!foundUser) {
+//                   res.status(401).json ( { errorMessage: "Usuario no registrado" } )
+//                   return;  
+//               }
+//           } else if (type === "cliente") { 
+//               foundUser = await ClienteModel.findOne({emailCliente})
+//               if(!foundUser) {
+//                   res.status(400).json ( { errorMessage: "Usuario no registrado" } )
+//                   return;
+//               }
+//           }
+
+//           //Validar contraseña
+//           let passwordMatch
+//           if ( type === "medicx") {
+//               passwordMatch = await bcrypt.compare(password, foundUser.password)
+//               if (!passwordMatch) {
+//                   res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
+//                   return;
+//               }
+//           }  else if ( type === "cliente" ) {
+//             passwordMatch = await bcrypt.compare(passwordCliente, foundUser.passwordCliente)
+//             if (!passwordMatch) {
+//                 res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
+//                 return;
+//             }
+//           }
+
+//         //a partir de acá creamos el Token y lo enviamos
+        
+//         //PAYLOADS
+//         let payloadMedicx
+//         let payloadCliente
+//         if ( type === "medicx") {
+//             payloadMedicx = {
+//                 _id: foundUser._id,
+//                 email: foundUser.email    
+//             }
+//         }  else if ( type === "cliente") {
+//             payloadCliente = {
+//                 _id: foundUser._id,
+//                 emailCliente: foundUser.emailCliente
+//         }
+//     }
+
+        
+        
+//         //TOKEN
+
+//         let authToken
+//         if ( type === "medicx" ) {
+//             authToken = jwt.sign(
+//                 payloadMedicx,
+//                 process.env.TOKEN_SECRET,
+//                 { algorithm: "HS256", expiresIn:"8h" }
+//             )
+//         } else if ( type === "cliente" ) {
+//             authToken = jwt.sign(
+//                 payloadCliente,
+//                 process.env.TOKEN_SECRET,
+//                 { algorithm: "HS256", expiresIn:"8h" }
+//             )
+//         }
+
+
+//         res.status(200).json({ authToken  })
+
+//     } catch (err) {
+//         next(err)
+//     }
+
+
+// })
+
+
+router.post ("/login/medicx", async (req,res,next) => {
+
+    const { email, password } = req.body
+
+    if ( !email || !password ) {
         res.status(400).json( { errorMessage: "LLenar todos los campos" } )
         return;
     }
@@ -138,82 +229,85 @@ router.post("/login/:type", async (req, res, next) => {
 
     try {
         //Validar que el usuario exista
-        let foundUser;
-        if (type === "medicx") {
             foundUser = await MedicxModel.findOne({email})
               if(!foundUser) {
                   res.status(401).json ( { errorMessage: "Usuario no registrado" } )
                   return;  
               }
-          } else if (type === "cliente") { 
-              foundUser = await ClienteModel.findOne({emailCliente})
-              if(!foundUser) {
-                  res.status(400).json ( { errorMessage: "Usuario no registrado" } )
-                  return;
-              }
-          }
 
-          //Validar contraseña
-          let passwordMatch
-          if ( type === "medicx") {
               passwordMatch = await bcrypt.compare(password, foundUser.password)
               if (!passwordMatch) {
                   res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
                   return;
               }
-          } else if ( type === "cliente" ) {
-            passwordMatch = await bcrypt.compare(passwordCliente, foundUser.passwordCliente)
-            if (!passwordMatch) {
-                res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
-                return;
-            }
-          }
 
-        //a partir de acá creamos el Token y lo enviamos
-        
-        //PAYLOADS
-        let payloadMedicx
-        let payloadCliente
-        if ( type === "medicx") {
-            payloadMedicx = {
+              payload = {
                 _id: foundUser._id,
                 email: foundUser.email    
             }
-        } else if ( type === "cliente") {
-            payloadCliente = {
-                _id: foundUser._id,
-                emailCliente: foundUser.emailCliente
-        }
-    }
 
-        
-        
-        //TOKEN
-
-        let authToken
-        if ( type === "medicx" ) {
             authToken = jwt.sign(
-                payloadMedicx,
+                payload,
                 process.env.TOKEN_SECRET,
                 { algorithm: "HS256", expiresIn:"8h" }
             )
-        } else if ( type === "cliente" ) {
-            authToken = jwt.sign(
-                payloadCliente,
-                process.env.TOKEN_SECRET,
-                { algorithm: "HS256", expiresIn:"8h" }
-            )
-        }
 
+            res.status(200).json({ authToken  })
 
-        res.status(200).json({ authToken  })
-
-    } catch (err) {
-        next(err)
-    }
+          } catch (err) {
+              next(err)
+          }
 
 
 })
+
+router.post ("/login/cliente", async (req,res,next) => {
+    const { type } = req.body
+
+    const { emailCliente, passwordCliente } = req.body
+
+    if ( !emailCliente || !passwordCliente ) {
+        res.status(400).json( { errorMessage: "LLenar todos los campos" } )
+        return;
+    }
+
+
+    try {
+        //Validar que el usuario exista
+            foundUser = await ClienteModel.findOne({emailCliente})
+              if(!foundUser) {
+                  res.status(401).json ( { errorMessage: "Usuario no registrado" } )
+                  return;  
+              }
+
+              passwordMatch = await bcrypt.compare(passwordCliente, foundUser.passwordCliente)
+              if (!passwordMatch) {
+                  res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
+                  return;
+              }
+
+              payload = {
+                _id: foundUser._id,
+                email: foundUser.emailCliente    
+            }
+
+            authToken = jwt.sign(
+                payload,
+                process.env.TOKEN_SECRET,
+                { algorithm: "HS256", expiresIn:"8h" }
+            )
+
+            res.status(200).json({ authToken  })
+
+          } catch (err) {
+              next(err)
+          }
+
+
+})
+
+
+
 
 
 module.exports = router;

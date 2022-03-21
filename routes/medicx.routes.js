@@ -2,7 +2,8 @@ const router = require("express").Router();
 const MedicxModel = require ("../models/Medicx.model")
 const MensajeModel = require ("../models/Mensaje.model")
 
-const uploader = require ("../middlewares/uploader")
+
+
 
 router.get("/perfilmed", (req, res, next) => {
     res.json("ruta perfil medicx checked")
@@ -12,13 +13,13 @@ router.get("/perfilmed", (req, res, next) => {
 })
 
 //Crear/editar y que el se haga público (patch porque enrealidad estamos editando, no?)
-router.patch("/:id", uploader.single("imgCapacitacion"), async (req,res,next) => {
+router.patch("/:id", async (req,res,next) => {
     const { id } = req.params
    //cloudinary: debería poner imgCapacitacion: req.file.path => pero no me encuentra el path 
-    const { nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, guardias, atiendePor, imgMed } = req.body
+    const { nombreCompleto, especializacion, capacitaciones, imgCapacitacion , provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed } = req.body
 
     try {
-        await MedicxModel.findByIdAndUpdate(id, {nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, guardias, atiendePor, imgMed})
+        await MedicxModel.findByIdAndUpdate(id, {nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed})
         res.json("Perfil público actualizado")
     } catch (err) {
         next(err)
