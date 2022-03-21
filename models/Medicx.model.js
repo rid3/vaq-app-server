@@ -55,6 +55,10 @@ const medSchema = new Schema(
     },
     imgMed: {
       type: String
+    },
+    role: {
+      type: String,
+      default: "medicx"
     }
 
   },

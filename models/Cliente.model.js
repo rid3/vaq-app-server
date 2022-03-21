@@ -29,6 +29,10 @@ const clienteSchema = new Schema ({
     medicxs: {
         type: Schema.Types.ObjectId,
         ref: "MedModel"
+    },
+    role: {
+        type: String,
+        default: "cliente"
     }
 
 })

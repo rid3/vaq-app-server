@@ -7,6 +7,8 @@ const bcrypt = require ("bcrypt");
 
 const jwt = require ("jsonwebtoken");
 
+const isAuthenticated = require ("../middlewares/isAuthenticated")
+
 
 
 //SIGN UP MEDICXS Y CLIENTES-----------------------------------------------------------------------------<
@@ -243,7 +245,8 @@ router.post ("/login/medicx", async (req,res,next) => {
 
               payload = {
                 _id: foundUser._id,
-                email: foundUser.email    
+                email: foundUser.email,
+                role: foundUser.role   
             }
 
             authToken = jwt.sign(
@@ -262,7 +265,6 @@ router.post ("/login/medicx", async (req,res,next) => {
 })
 
 router.post ("/login/cliente", async (req,res,next) => {
-    const { type } = req.body
 
     const { emailCliente, passwordCliente } = req.body
 
@@ -288,7 +290,8 @@ router.post ("/login/cliente", async (req,res,next) => {
 
               payload = {
                 _id: foundUser._id,
-                email: foundUser.emailCliente    
+                email: foundUser.emailCliente,
+                role: foundUser.role    
             }
 
             authToken = jwt.sign(
@@ -306,6 +309,21 @@ router.post ("/login/cliente", async (req,res,next) => {
 
 })
 
+//verifica si el usuario tiene un token valido cuando vuelva a la página
+router.get("/verify", isAuthenticated, (req,res,next) =>{
+
+    const isMedicx = false
+    const isCliente = false 
+    
+    if (req.playload === "medicx") {
+        isMedicx(true)
+    } else if (req.playload === "cliente") {
+        isCliente (true)
+    }
+
+    //salió todo ok
+    res.status(200).json({ isMedicx, isCliente }) //estoy haciendo cualquiera metiéndolos ahí, no?
+})
 
 
 
