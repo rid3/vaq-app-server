@@ -8,7 +8,6 @@ const bcrypt = require ("bcrypt");
 const jwt = require ("jsonwebtoken");
 
 const isAuthenticated = require ("../middlewares/isAuthenticated")
-const isCliente = require ("../middlewares/isCliente")
 
 
 
@@ -220,23 +219,16 @@ router.post ("/login/cliente", async (req,res,next) => {
 //verifica si el usuario tiene un token valido cuando vuelva a la página
 router.get("/verify", isAuthenticated, (req,res,next) =>{
 
-    // let isCliente
-    // let isMedicx
+    const userRole = req.payload.role
+
+    const userId = req.payload._id
+   
     
-    // if (req.playload === "medicx") {
-    //     isMedicx(true)
-    // } else if (req.playload === "cliente") {
-    //     isCliente (true)
-    // }
 
     //salió todo ok
-    res.status(200).json( req.payload ) //estoy haciendo cualquiera metiéndolos ahí, no?
+    res.status(200).json( { userRole, userId } )
 })
 
-//isCliente
-// router.get("/iscliente", isCliente, (req,res,next) => {
-//     res.status(200).json()
-// })
 
 
 

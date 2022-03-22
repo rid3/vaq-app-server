@@ -16,11 +16,12 @@ router.get("/perfilmed", (req, res, next) => {
 router.patch("/:id", async (req,res,next) => {
     const { id } = req.params
    //cloudinary: debería poner imgCapacitacion: req.file.path => pero no me encuentra el path 
-    const { nombreCompleto, especializacion, capacitaciones, imgCapacitacion , provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed } = req.body
+    const { nombreCompleto, especializacion, capacitaciones, imgCapacitacion , provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, contacto } = req.body
 
     try {
         await MedicxModel.findByIdAndUpdate(id, {nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, contacto, imgCapacitacion})
         res.json("Perfil público actualizado")
+        console.log(req.body) //para chequear img
     } catch (err) {
         next(err)
     }
