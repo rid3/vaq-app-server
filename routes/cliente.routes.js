@@ -1,5 +1,5 @@
 const ClienteModel = require("../models/Cliente.model");
-const MensajeModel = require("../models/Mensaje.model");
+
 
 const router = require("express").Router();
 
@@ -70,20 +70,6 @@ router.post("/:id/guardar", async (req, res, next) => {
 
 
 
-//RUTA PARA MENSAJES -------------------------
-
-router.post("/mensajes", async (req, res, next) => {
-    const { mensaje } = req.body
-
-    try {
-
-        const response = await MensajeModel.create ({ mensaje })
-        res.json(response)
-
-    }catch(err) {
-        next(err)
-    }
-})
 
 
 module.exports = router;

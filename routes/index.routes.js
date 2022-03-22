@@ -23,5 +23,8 @@ router.use("/public", publicRoutes)
 const cloudinaryRoutes = require ("./cloudinary.routes")
 router.use("/img", cloudinaryRoutes) 
 
+const chatRoutes = require("./chat.routes");
+router.use("/chat", isAuthenticated, chatRoutes)
+
 
 module.exports = router;

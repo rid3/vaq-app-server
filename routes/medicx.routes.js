@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const MedicxModel = require ("../models/Medicx.model")
-const MensajeModel = require ("../models/Mensaje.model")
+
 
 
 
@@ -41,22 +41,7 @@ router.delete("/:id", async (req, res, next) => {
     }
 })
 
-//RUTAS PARA CREAR MENSAJES -----------------------------
 
-router.post ("/mensajes", async (req,res,next) => {
-
-    const { mensaje } = req.body
-
-    try {
-
-        const response = await MensajeModel.create ({ mensaje })
-        res.json(response)
-
-    } catch(err) {
-        next(err)
-    }
-
-})
 
 
 
