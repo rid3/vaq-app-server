@@ -153,7 +153,7 @@ router.post ("/login/medicx", async (req,res,next) => {
               payload = {
                 _id: foundUser._id,
                 email: foundUser.email,
-                role: foundUser.role   
+                role: foundUser.role  
             }
 
             authToken = jwt.sign(
@@ -198,7 +198,9 @@ router.post ("/login/cliente", async (req,res,next) => {
               payload = {
                 _id: foundUser._id,
                 email: foundUser.emailCliente,
-                role: foundUser.role    
+                role: foundUser.role,
+                medicxs: foundUser.medicxs,
+                nombre: foundUser.nombre  
             }
 
             authToken = jwt.sign(
@@ -222,7 +224,6 @@ router.get("/verify", isAuthenticated, (req,res,next) =>{
     const userRole = req.payload.role
 
     const userId = req.payload._id
-   
     
 
     //salió todo ok

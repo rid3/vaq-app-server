@@ -3,8 +3,18 @@ const MensajeModel = require("../models/Mensaje.model");
 
 const router = require("express").Router();
 
-router.get ("/perfilcli", (req,res,next) => {
-    res.json("perfil cliente checked")
+router.get ("/perfilcli/:id", async (req,res,next) => {
+
+    const {id} = req.params
+
+    try {
+        const response = await ClienteModel.findById(id)
+        //console.log(response)
+        res.json(response)
+
+    } catch (err){
+        next(err)
+    }
 
     //home privado donde le salen las citas que tiene (si llego), les mediques que se guardó
 })
