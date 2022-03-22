@@ -8,6 +8,7 @@ const bcrypt = require ("bcrypt");
 const jwt = require ("jsonwebtoken");
 
 const isAuthenticated = require ("../middlewares/isAuthenticated")
+const isCliente = require ("../middlewares/isCliente")
 
 
 
@@ -17,7 +18,7 @@ router.post("/signup/:type", async (req, res, next) => {
     const { type } = req.params
 
     //----todas las propiedades de ambos tipos de usuarios
-    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, nombre, emailCliente, passwordCliente, imgCl, medicxs, pronombres } = req.body
+    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, nombre, emailCliente, passwordCliente, imgCl, medicxs, pronombres, role, contacto } = req.body
 
   //VALIDADORES
   //Revisar que todos los campos estén llenos
@@ -99,7 +100,9 @@ router.post("/signup/:type", async (req, res, next) => {
                 centroDeSalud,
                 diasYhorario,
                 atiendePor,
-                imgMed
+                imgMed,
+                role,
+                contacto
             })
         } else if (type === "cliente") {
             await ClienteModel.create({
@@ -108,7 +111,8 @@ router.post("/signup/:type", async (req, res, next) => {
                 emailCliente,
                 passwordCliente: hashedPasswordCliente,
                 imgCl,
-                medicxs
+                medicxs,
+                role
             })
         }
         //mensaje de que todo fue bien
@@ -120,103 +124,7 @@ router.post("/signup/:type", async (req, res, next) => {
 
 })
 
-//LOG IN ------------------------------------------------------------------------------------------< 
-// router.post("/login/:type", async (req, res, next) => {
-
-//     const { type } = req.body
-
-//     const { email, password, emailCliente, passwordCliente } = req.body
-
-//     // TENG QUE AGREGAR ===> Validaciones de BE
-
-//     //Revisar que envíe ambos campos
-//     if ( type === "medicx" && ( !email || !password ) ) {
-//         res.status(400).json( { errorMessage: "LLenar todos los campos" } )
-//         return;
-//     } else if ( type === "cliente" && ( !emailCliente || !passwordCliente ) ) {
-//         res.status(400).json( { errorMessage: "LLenar todos los campos" } )
-//         return;
-//     }
-
-
-//     try {
-//         //Validar que el usuario exista
-//         let foundUser;
-//         if (type === "medicx") {
-//             foundUser = await MedicxModel.findOne({email})
-//               if(!foundUser) {
-//                   res.status(401).json ( { errorMessage: "Usuario no registrado" } )
-//                   return;  
-//               }
-//           } else if (type === "cliente") { 
-//               foundUser = await ClienteModel.findOne({emailCliente})
-//               if(!foundUser) {
-//                   res.status(400).json ( { errorMessage: "Usuario no registrado" } )
-//                   return;
-//               }
-//           }
-
-//           //Validar contraseña
-//           let passwordMatch
-//           if ( type === "medicx") {
-//               passwordMatch = await bcrypt.compare(password, foundUser.password)
-//               if (!passwordMatch) {
-//                   res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
-//                   return;
-//               }
-//           }  else if ( type === "cliente" ) {
-//             passwordMatch = await bcrypt.compare(passwordCliente, foundUser.passwordCliente)
-//             if (!passwordMatch) {
-//                 res.status(401).json ( { errorMessage: "Contraseña incorrecta" } )
-//                 return;
-//             }
-//           }
-
-//         //a partir de acá creamos el Token y lo enviamos
-        
-//         //PAYLOADS
-//         let payloadMedicx
-//         let payloadCliente
-//         if ( type === "medicx") {
-//             payloadMedicx = {
-//                 _id: foundUser._id,
-//                 email: foundUser.email    
-//             }
-//         }  else if ( type === "cliente") {
-//             payloadCliente = {
-//                 _id: foundUser._id,
-//                 emailCliente: foundUser.emailCliente
-//         }
-//     }
-
-        
-        
-//         //TOKEN
-
-//         let authToken
-//         if ( type === "medicx" ) {
-//             authToken = jwt.sign(
-//                 payloadMedicx,
-//                 process.env.TOKEN_SECRET,
-//                 { algorithm: "HS256", expiresIn:"8h" }
-//             )
-//         } else if ( type === "cliente" ) {
-//             authToken = jwt.sign(
-//                 payloadCliente,
-//                 process.env.TOKEN_SECRET,
-//                 { algorithm: "HS256", expiresIn:"8h" }
-//             )
-//         }
-
-
-//         res.status(200).json({ authToken  })
-
-//     } catch (err) {
-//         next(err)
-//     }
-
-
-// })
+//LOG IN -------------------------------------------------------
 
 
 router.post ("/login/medicx", async (req,res,next) => {
@@ -312,19 +220,23 @@ router.post ("/login/cliente", async (req,res,next) => {
 //verifica si el usuario tiene un token valido cuando vuelva a la página
 router.get("/verify", isAuthenticated, (req,res,next) =>{
 
-    const isMedicx = false
-    const isCliente = false 
+    // let isCliente
+    // let isMedicx
     
-    if (req.playload === "medicx") {
-        isMedicx(true)
-    } else if (req.playload === "cliente") {
-        isCliente (true)
-    }
+    // if (req.playload === "medicx") {
+    //     isMedicx(true)
+    // } else if (req.playload === "cliente") {
+    //     isCliente (true)
+    // }
 
     //salió todo ok
-    res.status(200).json({ isMedicx, isCliente }) //estoy haciendo cualquiera metiéndolos ahí, no?
+    res.status(200).json( req.payload ) //estoy haciendo cualquiera metiéndolos ahí, no?
 })
 
+//isCliente
+// router.get("/iscliente", isCliente, (req,res,next) => {
+//     res.status(200).json()
+// })
 
 
 

@@ -37,6 +37,28 @@ router.delete ("/:id", async (req, res, next) => {
     }
 })
 
+router.post("/:id/guardar", async (req, res, next) => {
+
+    try {
+
+        const { id } = req.params
+
+        //buscar el modelo del cliente para agregar al médicx
+        const elCliente = await ClienteModel.findById(req.payload._id)
+
+        await elCliente.updateOne( { $addToSet : { medicxs: id } } )
+
+    } catch (err) {
+        next(err)
+    }
+
+
+
+} )
+
+
+
+
 
 //RUTA PARA MENSAJES -------------------------
 

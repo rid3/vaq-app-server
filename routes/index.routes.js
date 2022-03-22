@@ -21,7 +21,7 @@ const publicRoutes = require ("./public.routes")
 router.use("/public", publicRoutes)
 
 const cloudinaryRoutes = require ("./cloudinary.routes")
-router.use("/img", cloudinaryRoutes) // ¿ esta bien mandarlo a api?
+router.use("/img", cloudinaryRoutes) 
 
 
 module.exports = router;

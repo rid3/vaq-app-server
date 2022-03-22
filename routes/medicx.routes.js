@@ -19,7 +19,7 @@ router.patch("/:id", async (req,res,next) => {
     const { nombreCompleto, especializacion, capacitaciones, imgCapacitacion , provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed } = req.body
 
     try {
-        await MedicxModel.findByIdAndUpdate(id, {nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed})
+        await MedicxModel.findByIdAndUpdate(id, {nombreCompleto, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, contacto, imgCapacitacion})
         res.json("Perfil público actualizado")
     } catch (err) {
         next(err)

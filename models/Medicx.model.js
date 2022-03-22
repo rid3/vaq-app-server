@@ -59,6 +59,9 @@ const medSchema = new Schema(
     role: {
       type: String,
       default: "medicx"
+    },
+    contacto: {
+      type:String,
     }
 
   },
