@@ -8,15 +8,13 @@ router.get ("/perfilcli/:id", async (req,res,next) => {
     const {id} = req.params
 
     try {
-        const response = await ClienteModel.findById(id)
+        const response = await ClienteModel.findById(id).populate("medicxs")
         //console.log(response)
         res.json(response)
 
     } catch (err){
         next(err)
     }
-
-    //home privado donde le salen las citas que tiene (si llego), les mediques que se guardó
 })
 
 //editar su perfil 
@@ -47,8 +45,12 @@ router.delete ("/:id", async (req, res, next) => {
     }
 })
 
-router.post("/:id/guardar", async (req, res, next) => {
+router.post("/:id/guardar", async (req, res, next) => { 
 
+    //me quiero guardar algo
+    //id de cliente que quiere guardarse al médicx
+    //id del médicx
+    //agregarlo a sus propiedades
     try {
 
         const { id } = req.params
@@ -61,14 +63,7 @@ router.post("/:id/guardar", async (req, res, next) => {
     } catch (err) {
         next(err)
     }
-
-
-
 } )
-
-
-
-
 
 
 

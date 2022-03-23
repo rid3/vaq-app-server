@@ -199,8 +199,7 @@ router.post ("/login/cliente", async (req,res,next) => {
                 _id: foundUser._id,
                 email: foundUser.emailCliente,
                 role: foundUser.role,
-                medicxs: foundUser.medicxs,
-                nombre: foundUser.nombre  
+            
             }
 
             authToken = jwt.sign(

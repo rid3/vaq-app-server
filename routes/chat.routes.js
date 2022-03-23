@@ -7,7 +7,7 @@ const MedicxModel = require ("../models/Medicx.model")
 // "/api/chat/users" to get a list of all users from the DB
 router.get("/users", async (req, res, next) => {
   try {
-    const response = await MedicxModel.find().select("nombreCompleto")
+    const response = await MedicxModel.find().select("nombreCompleto especializacion provincia")
     res.status(200).json(response)
   } catch(err) {
     next(err)
@@ -44,7 +44,7 @@ router.post("/start/:userId", async (req, res, next) => {
   
     try {
   
-      const response = await Message.find({ chatId })
+      const response = await Message.find({ chatId }).populate("sender")
       res.json(response)
   
     } catch(err) {
@@ -53,12 +53,6 @@ router.post("/start/:userId", async (req, res, next) => {
   
   })
   
-
-
-
-
-
-
 
 
 module.exports = router;
