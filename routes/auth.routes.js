@@ -153,7 +153,8 @@ router.post ("/login/medicx", async (req,res,next) => {
               payload = {
                 _id: foundUser._id,
                 email: foundUser.email,
-                role: foundUser.role  
+                role: foundUser.role,
+                nombreCompleto: foundUser.nombreCompleto  
             }
 
             authToken = jwt.sign(

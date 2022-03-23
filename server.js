@@ -12,12 +12,13 @@ const myServer = app.listen(PORT, () => {
 const { Server } = require("socket.io")
 const socketioJwt = require("socketio-jwt")
 const Message = require("./models/Message.model")
-
+//require("dotenv/config");
 
 // CORS (habilitar que el nuevo servidor de socket(io) escuche a nuestro FE)
 const io = new Server (myServer, {
   cors: {
-    origin: process.env.ORIGIN || "http://localhost:3000"
+    // origin: process.env.ORIGIN
+    origin: "*"
   }
 })
 
