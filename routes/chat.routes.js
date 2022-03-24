@@ -14,7 +14,7 @@ router.get("/users", async (req, res, next) => {
   }
 })
 
-//a les mediques les decimos user también 
+//(a les mediques les decimos user también) 
 router.post("/start/:userId", async (req, res, next) => {
 
     const { _id } = req.payload // usuario loggueado

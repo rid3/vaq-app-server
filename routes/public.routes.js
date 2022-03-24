@@ -7,7 +7,6 @@ router.get("/perfilesmed", async (req,res,next) => {
 
     try {
         const response = await MedicxModel.find()
-        console.log(response)
         res.json(response)
 
     } catch (err){
@@ -21,23 +20,14 @@ router.get("/details/:id", async (req,res,next) => {
     const { id } = req.params
 
     try {
-
         const response = await MedicxModel.findById(id)
         res.json(response)
-        
+   
     } catch (err) {
         next(err)
     }
 
 })
-
-
-
-
-
-
-
-
 
 
 

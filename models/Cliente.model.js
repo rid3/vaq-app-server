@@ -21,11 +21,7 @@ const clienteSchema = new Schema ({
         type: String,
         required: true,
     },
-
-    imgCl: {
-        type:String
-    },
-
+    
     medicxs: [{
         type: Schema.Types.ObjectId,
         ref: "MedModel"

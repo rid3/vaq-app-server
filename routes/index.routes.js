@@ -4,10 +4,10 @@ const isAuthenticated = require ("../middlewares/isAuthenticated")
 
 
 router.get("/", (req, res, next) => {
-  res.json("All good in here"); //no se renderiza información, sólo se envía json
+  res.json("All good in here"); 
 });
 
-//rutas de SignUp LogIn Autenticaciones 
+
 const authRoutes = require ("./auth.routes")
 router.use("/auth", authRoutes)
 

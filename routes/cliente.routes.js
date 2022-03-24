@@ -9,7 +9,6 @@ router.get ("/perfilcli/:id", async (req,res,next) => {
 
     try {
         const response = await ClienteModel.findById(id).populate("medicxs")
-        //console.log(response)
         res.json(response)
 
     } catch (err){
@@ -21,11 +20,10 @@ router.get ("/perfilcli/:id", async (req,res,next) => {
 router.patch ("/:id", async (req,res,next) => {
     const { id } = req.params
 
-    const { nombre, pronombres, imgCl, medicxs } = req.body
+    const { nombre, pronombres, medicxs } = req.body
 
     try {
-
-        await ClienteModel.findByIdAndUpdate (id, { nombre, pronombres, imgCl, medicxs })
+        await ClienteModel.findByIdAndUpdate (id, { nombre, pronombres, medicxs })
         res.json("Perfil cliente actualizado")
     } catch(err) {
         next(err)
@@ -47,15 +45,10 @@ router.delete ("/:id", async (req, res, next) => {
 
 router.post("/:id/guardar", async (req, res, next) => { 
 
-    //me quiero guardar algo
-    //id de cliente que quiere guardarse al médicx
-    //id del médicx
-    //agregarlo a sus propiedades
     try {
 
         const { id } = req.params
 
-        //buscar el modelo del cliente para agregar al médicx
         const elCliente = await ClienteModel.findById(req.payload._id)
 
         await elCliente.updateOne( { $addToSet : { medicxs: id } } )

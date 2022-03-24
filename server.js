@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", async (messageObj) => {
 
-    const fullMessage = {...messageObj, sender: user} //?????????????????????????????estará bien esto?min58aprox
+    const fullMessage = {...messageObj, sender: user} 
     await Message.create(fullMessage)
     // aqui es donde emitimos los cambios a todos los usuarios del socket
 

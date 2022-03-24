@@ -17,7 +17,7 @@ router.post("/signup/:type", async (req, res, next) => {
     const { type } = req.params
 
     //----todas las propiedades de ambos tipos de usuarios
-    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, nombre, emailCliente, passwordCliente, imgCl, medicxs, pronombres, role, contacto } = req.body
+    const { nombreCompleto, email, password, especializacion, capacitaciones, imgCapacitacion, provincia, ciudad, centroDeSalud, diasYhorario, atiendePor, imgMed, nombre, emailCliente, passwordCliente, medicxs, pronombres, role, contacto } = req.body
 
   //VALIDADORES
   //Revisar que todos los campos estén llenos
@@ -109,7 +109,6 @@ router.post("/signup/:type", async (req, res, next) => {
                 pronombres,
                 emailCliente,
                 passwordCliente: hashedPasswordCliente,
-                imgCl,
                 medicxs,
                 role
             })
@@ -123,9 +122,9 @@ router.post("/signup/:type", async (req, res, next) => {
 
 })
 
-//LOG IN -------------------------------------------------------
+//LOG IN ----------------------------------------------------------------------------------------------------<
 
-
+//MEDICXS
 router.post ("/login/medicx", async (req,res,next) => {
 
     const { email, password } = req.body
@@ -172,6 +171,7 @@ router.post ("/login/medicx", async (req,res,next) => {
 
 })
 
+//CLIENTES
 router.post ("/login/cliente", async (req,res,next) => {
 
     const { emailCliente, passwordCliente } = req.body
@@ -218,7 +218,7 @@ router.post ("/login/cliente", async (req,res,next) => {
 
 })
 
-//verifica si el usuario tiene un token valido cuando vuelva a la página
+//verifica si el usuario tiene un token valido cuando vuelva a la página---------------<
 router.get("/verify", isAuthenticated, (req,res,next) =>{
 
     const userRole = req.payload.role
